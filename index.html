@@ -1,0 +1,254 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>My World in Pictures</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="stylesheet" href="https://js.arcgis.com/4.9/esri/css/main.css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:700italic,400,300,700' rel='stylesheet' type='text/css'>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="js/skel.min.js"></script>
+	<script src="js/skel-panels.min.js"></script>
+	<script src="js/init.js"></script>
+	<noscript>
+		<link rel="stylesheet" href="css/skel-noscript.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/style-desktop.css" />
+	</noscript>
+	<style>
+			.esri-view-surface:focus {
+			  outline: none !important;
+			}
+		  </style>
+</head>
+
+<body class="no-sidebar">
+	<!-- Main -->
+	<div id="viewDiv" style="width:70%;height:800px;float:left;">
+	</div>
+	<div id="image-carousel" style="left:70%; width:30%;height:800px;background-color:black;float:left;">
+		<div style="color:#e95d3c;padding-left:25px;padding-right:25px">
+			<div style="padding-top: 25px;font-size:20pt">My World in Pictures</div>
+			<div style="padding-top: 5px; font-size:12pt;">Built with <a style="color:white" href="https://developers.arcgis.com/javascript/" target="blank">ArcGIS API for JavaScript</a>. Find the Code <a style="color:white" href="" target="blank">here</a>.</div>
+			<hr style="border-top: solid 1px #e95d3c">
+			<div id="title" style="padding-top: 10px; font-size:18pt;"></div>
+			<div id="time" style="padding-top: 5px">Click on a pin on the globe to see more information.</div>
+			<div id="image" style="padding-top: 15px"></div>
+			<div id="description" style="text-align: justify;padding-top: 5px"></div>
+		</div>
+
+	</div>
+
+	<!-- /Map -->
+	<script src="https://js.arcgis.com/4.9/"></script>
+	<script>
+		var mappoints = [
+			{
+				"Name": "Childhood",
+				"lat": 47.297743,
+				"lon": 8.448143,
+				"Time": "1993-2013",
+				"Description": "I grew up on the country side in Switzerland in a small town called Hedingen.",
+				"ImageURL": "png/hedingen.JPG"
+			},
+			{
+				"Name": "University",
+				"lat": 47.408225,
+				"lon": 8.506336,
+				"Time": "2011-2018",
+				"Description": "I graduated from ETH Zurich with a Master of Science in Geomatics Engineering in 2018. Most of the time I spent at the Science City Campus at ETH Hoenggerberg.",
+				"ImageURL": "png/eth_hoenggerberg.JPG"
+			},
+			{
+				"Name": "Travel: Cuba",
+				"lat": 23.113592,
+				"lon": -82.366592,
+				"Time": "2015",
+				"Description": "In 2015, I travelled outside of Europe for the first time and made it all the way to buzzling Cuba where the streets are full of salsa rhythms, old cars, and fresh fruits.",
+				"ImageURL": "png/kuba.JPG"
+			},
+			{
+				"Name": "Travel: Mexico",
+				"lat": 21.17429, 
+				"lon": -86.84656,
+				"Time": "2015",
+				"Description": "After Cuba, I continued my trip to Mexico to find amazing beaches, great food, the sweetest people and very old Maya ruins in Yucatan.",
+				"ImageURL": "png/mexico.JPG"
+			},
+			{
+				"Name": "Travel: Argentina",
+				"lat":  -34.603722,
+				"lon": -58.381592,
+				"Time": "2016",
+				"Description": "I got hooked with the Latin American culture quite quickly, so I decided to travel to Argentina in 2016 to drink mate tea, eat loads of empanadas and explore wide landscapes inhabitated by the gauchos.",
+				"ImageURL": "png/argentina.jpg"
+			},
+			{
+				"Name": "Travel: Chile",
+				"lat":  -53.15483,
+				"lon": -70.911292,
+				"Time": "2016",
+				"Description": "The South American adventure continued to the most southern part of Chile where we explored Patagonia on a 5-day hiking trip sleeping in tents and falling in love with the clear night skies, mountain sceneries and trekking in general.",
+				"ImageURL": "png/chile.jpg"
+			},
+			{
+				"Name": "Travel: New York",
+				"lat":  40.730610, 
+				"lon": -73.935242,
+				"Time": "2016",
+				"Description": "My first week of solo travel, I spent all by myself in New York, exploring the streets of Big Apple walking and taking thousands of pictures.",
+				"ImageURL": "png/newyork.png"
+			},
+			{
+				"Name": "Exchange Semester",
+				"lat": 34.420830,
+				"lon": -119.698189,
+				"Time": "2016",
+				"Description": "My exchange semester I spent in California at the Department of Geography of the University of California in Santa Barbara working in the amazing <a style='color:white' href='http://stko.geog.ucsb.edu/' target='blank'>STKO</a> lab on a <a style='color:white' href='pedestrian-navigation.html'>research project</a> about Pedestrian Navigation in Virtual Environments.",
+				"ImageURL": "png/santa_barbara.png"
+			},
+			{
+				"Name": "Travel: Thailand",
+				"lat":  13.736717,
+				"lon": 100.523186,
+				"Time": "2016/2017",
+				"Description": "Visiting a friend from California, I got the opportunity to travel through the cityscapes and national parks of Thailand with a local who grew in Bangkok.",
+				"ImageURL": "png/thailand.JPG"
+			},
+			{
+				"Name": "Travel: Sri Lanka",
+				"lat":  6.927079,
+				"lon": 79.861244,
+				"Time": "2017",
+				"Description": "Sri Lanka offered the most delicious food, great friendship, first surfing experiences and train rides around endless hills of tea plantages.",
+				"ImageURL": "png/srilanka.JPG"
+			},
+			{
+				"Name": "Travel: Indonesia",
+				"lat":  -8.409518, 
+				"lon": 115.188919,
+				"Time": "2018",
+				"Description": "Learning to be a Yoga teacher at <a style='color:white' href='https://www.zunayoga.com/' target='blank'>Zuna Yoga</a>, scuba diving and solo travelling through the Islands of Bali, Lombok and Java in Indonesia to celebrate my graduation from University.",
+				"ImageURL": "png/indonesia.JPG"
+			},
+			{
+				"Name": "Travel: Nepal",
+				"lat":  27.700769,
+				"lon": 85.300140,
+				"Time": "2018",
+				"Description": "With a 3-week teahouse trek through the Himalayas in Nepal, I have fullfiled a big dream of mine in 2018 completing the Kopra Ridge trek as well as Annapurna Basecamp.",
+				"ImageURL": "png/nepal.JPG"
+			},
+
+		]
+	</script>
+	<script>
+		require([
+			"esri/Map",
+			"esri/views/SceneView",
+			"esri/layers/GraphicsLayer",
+			"esri/Graphic",
+			"esri/geometry/Point",
+			"dojo/dom",
+			"dojo/request"
+		], function (Map, SceneView, GraphicsLayer, Graphic, Point, dom, request) {
+			var map = new Map({
+				basemap: "dark-gray",
+				ground: "world-elevation"
+			});
+
+			var view = new SceneView({
+				container: "viewDiv",  // Reference to the DOM node that will contain the view
+				map: map,  // References the map object created in step 3
+				environment: {
+					background: {
+						type: "color",
+						color: 'white'
+					},
+					starsEnabled: false,
+					atmosphereEnabled: false
+				}
+			});
+
+			view.ui.remove([ "attribution", "navigation-toggle", "compass", "zoom"]);
+
+			var graphicsLayer = new GraphicsLayer();
+			map.add(graphicsLayer);
+
+			// add render for points
+			var pointSymbol = {
+				type: "point-3d",
+				symbolLayers: [{
+					type: "icon",
+					size: 10,
+					resource: { primitive: "circle" },
+					material: { color: "#e95d3c" }
+				}],
+				verticalOffset: {
+					screenLength: 100,
+					maxWorldLength: 1000000,
+					minWorldLength: 10000
+				},
+				callout: {
+					type: "line",
+					size: 1,
+					color: '#e95d3c',
+				}
+			};
+
+			mappoints.forEach(item => createPointGraphic(item));
+
+			function createPointGraphic(item) {
+				var point = {
+					type: "point",
+					latitude: item.lat,
+					longitude: item.lon,
+				};
+
+				var attributes = {
+					Name: item.Name,
+					Time: item.Time,
+					Description: item.Description,
+					ImageURL: item.ImageURL
+				};
+
+				var pointGraphic = new Graphic({
+					geometry: point,
+					symbol: pointSymbol,
+					attributes: attributes
+				});
+				graphicsLayer.add(pointGraphic);
+			}
+
+			view.on("click", function (event) {
+
+				view.hitTest(event).then(function (response) {
+
+					var result = response.results[0];
+					if (result && result.graphic) {
+						return result.graphic;
+					}
+				}).then(function (graphic) {
+					dom.byId("title").innerHTML = graphic.attributes.Name;
+					dom.byId("time").innerHTML = graphic.attributes.Time;
+					dom.byId("description").innerHTML = graphic.attributes.Description;
+					dom.byId("image").innerHTML = '<img src=' + graphic.attributes.ImageURL + ' width=100%>';
+				});
+			});
+		});
+
+    </script>
+    
+    	<!-- Copyright -->
+	<div id="copyright" class="container" style="position:static">
+            Design:
+            <a href="http://templated.co">TEMPLATED</a>
+        </div>
+
+</body>
+
+</html>
